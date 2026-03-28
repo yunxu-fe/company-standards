@@ -1,0 +1,36 @@
+---
+description: React 组件开发最佳实践（函数式组件、Props 类型、useEffect 依赖）
+globs: "**/*.tsx"
+alwaysApply: false
+---
+
+# React 组件开发最佳实践
+
+## 组件形态
+
+- **必须使用函数式组件**，配合 React Hooks 管理状态与副作用；禁止 class 组件。
+- **组件名必须使用 PascalCase**（如 `UserProfile`、`AuthForm`），文件名与默认导出名称保持一致或遵循项目既有约定。
+
+## Props 与类型
+
+- **Props 必须使用 TypeScript `interface` 定义**（或项目统一要求的类型别名，但优先 `interface` 便于扩展）。
+- **为每个 Props 字段添加注释**（推荐 TSDoc：`/** ... */`），说明含义、可选性、约束或示例。
+
+```tsx
+interface UserCardProps {
+  /** 用户展示名称 */
+  displayName: string;
+  /** 是否显示头像；默认 true */
+  showAvatar?: boolean;
+}
+
+export function UserCard({ displayName, showAvatar = true }: UserCardProps) {
+  // ...
+}
+```
+
+## useEffect 依赖
+
+- **禁止在依赖数组中列入不必要的依赖**：仅包含真正参与 effect 逻辑、且随渲染变化会导致需重新执行同步的值。
+- 稳定引用（如 `useCallback`/`useMemo` 已正确包裹的函数、或来自 ref 的 `.current` 若按规范使用）不要重复列入导致无意义重跑。
+- 若因 ESLint `react-hooks/exhaustive-deps` 需例外处理，**必须写简短注释说明原因**，避免无注释地关闭规则或随意塞入依赖。
