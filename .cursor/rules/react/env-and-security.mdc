@@ -1,0 +1,15 @@
+---
+description: 前端环境变量、敏感信息与 XSS 相关约定（React）
+globs: "**/*.{tsx,ts,jsx,js}"
+alwaysApply: false
+---
+
+# 环境变量
+
+- **仅将允许暴露给浏览器的前缀变量写入客户端代码**（如 `VITE_`、`NEXT_PUBLIC_` 等，以构建工具文档为准）；**密钥、令牌、数据库连接串禁止出现在前端 bundle**。
+- **在类型层为 `import.meta.env` / `process.env` 做窄化或集中封装**，避免在业务组件中散落魔法字符串。
+
+# 安全与 HTML
+
+- **`dangerouslySetInnerHTML` 仅在经过服务端可信渲染或严格消毒（明确策略与库）后使用**；禁止将用户输入直接注入 HTML。
+- **外链 `target="_blank"` 时配合 `rel="noopener noreferrer"`**（或框架等价处理），降低 `window.opener` 相关风险。

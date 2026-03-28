@@ -1,0 +1,19 @@
+---
+description: Vue 性能（懒加载、v-memo）与可访问性、Teleport
+globs: "**/*.vue"
+alwaysApply: false
+---
+
+# 性能
+
+- **路由级组件使用异步组件 / 动态 import**（与 Vue Router、`defineAsyncComponent` 或框架约定一致），控制首屏体积。
+- **`v-memo` / `v-once` 仅在 profiling 或明确瓶颈后使用**，并注释场景；避免过早优化导致状态更新不生效的隐患。
+
+# 可访问性
+
+- **语义化标签**：按钮用 `<button>`，导航用 `<nav>`，表单控件与 `<label>` 关联（`for` / 包裹式）。
+- **`Teleport` 挂载的弹层、抽屉**：配合 **焦点管理、ESC 关闭、`aria-modal` 等**（优先使用成熟无障碍组件库或 Headless 方案），避免焦点落入「背后」页面。
+
+# 与通用规则的关系
+
+- **错误展示与加载态**：在路由或布局层统一兜底，与 `general/error-handling.mdc` 及设计规范一致。

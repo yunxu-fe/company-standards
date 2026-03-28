@@ -1,0 +1,20 @@
+---
+description: Vue 项目导入顺序、composable 命名与路径别名
+globs: "**/*.{vue,ts,js}"
+alwaysApply: false
+---
+
+# 导入与模块
+
+## 导入位置
+
+- **`import` 置于 `<script setup>` 或模块顶部**；禁止在函数内随意动态 `import()` 除非用于**路由级懒加载、拆 chunk 或明确按需加载**，并符合构建配置。
+
+## Composable
+
+- **可复用组合式函数文件以 `use` 前缀命名**（如 `useUserSession.ts`），返回值用对象明确字段含义，避免过长无命名元组。
+
+## 顺序与别名
+
+- **导入顺序与团队 ESLint 配置对齐**（常见：Vue 核心 → 第三方 → 别名 `@/` → 相对路径）；**类型-only 使用 `import type`**（在 `verbatimModuleSyntax` 等要求下必须遵守）。
+- **优先路径别名**，减少深层 `../../`；**慎用过度 barrel**，避免循环依赖与打包体积问题（与构建分析结论一致时再收紧）。

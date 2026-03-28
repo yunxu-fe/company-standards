@@ -1,0 +1,22 @@
+---
+description: Vue SFC 结构、script setup 与组件命名、列表 key
+globs: "**/*.vue"
+alwaysApply: false
+---
+
+# 组件与单文件组件（SFC）
+
+## 形态与语法
+
+- **新组件优先使用 `<script setup lang="ts">`**，与 Composition API 配合；维护 Options API 遗留代码时保持文件内风格一致，避免混用导致可读性下降。
+- **SFC 内块顺序遵循项目统一约定**（常见：`script` → `template` → `style`）；`style` 默认 **`scoped`** 或项目既定的 CSS Modules / 原子化方案，避免无作用域样式泄漏。
+
+## 命名
+
+- **组件名使用 PascalCase**（如 `UserProfile.vue`）；**在模板中引用与注册名一致**（自动导入场景下与文件名/export 对齐）。
+- **遵循 Vue 风格指南：组件名宜为多词组合**（如 `TodoItem`），避免与原生 HTML 标签冲突；根组件 `App` 等约定除外。
+
+## 模板基础
+
+- **`v-for` 必须绑定稳定、唯一的 `:key`**，优先业务主键；**禁止用索引作为 key**（除非列表静态且永不重排、无状态依赖顺序）。
+- **模板保持简洁**：复杂逻辑移至 `computed`、方法或 composable，避免模板中长表达式与多重三元运算。

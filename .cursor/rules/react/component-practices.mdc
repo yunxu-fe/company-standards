@@ -1,0 +1,42 @@
+---
+description: React 组件形态、Props 类型与 useEffect 依赖（函数式组件与 Hooks）
+globs: "**/*.{tsx,jsx}"
+alwaysApply: false
+---
+
+# React 组件开发最佳实践
+
+## 组件形态
+
+- **必须使用函数式组件**，配合 React Hooks 管理状态与副作用；禁止 class 组件（除非维护遗留代码且团队明确允许）。
+- **组件名必须使用 PascalCase**（如 `UserProfile`、`AuthForm`），文件名与默认导出名称保持一致或遵循项目既有约定。
+- **列表渲染必须为稳定项提供稳定 `key`**：优先业务主键（id），禁止用数组下标作为 key（除非静态列表且顺序永不变化）。
+
+## Props 与类型
+
+- **Props 必须使用 TypeScript `interface` 定义**（或项目统一要求的类型别名；扩展场景优先 `interface`）。
+- **为每个 Props 字段添加注释**（推荐 TSDoc：`/** ... */`），说明含义、可选性、约束或示例。
+- **避免在 Props 中传递未经约束的 `any`**；事件处理器使用 React 提供的类型（如 `React.MouseEvent<HTMLButtonElement>`）。
+
+```tsx
+interface UserCardProps {
+  /** 用户展示名称 */
+  displayName: string;
+  /** 是否显示头像；默认 true */
+  showAvatar?: boolean;
+}
+
+export function UserCard({ displayName, showAvatar = true }: UserCardProps) {
+  // ...
+}
+```
+
+## useEffect 依赖
+
+- **依赖数组仅包含真正参与 effect 同步逻辑、且变化后需要重新执行的值**；禁止为了“消警告”而盲目追加无关依赖。
+- 稳定引用（如经 `useCallback`/`useMemo` 正确包裹的函数，或按规范使用的 ref）不要重复列入导致无意义重跑。
+- 若因 ESLint `react-hooks/exhaustive-deps` 需例外处理，**必须写简短注释说明原因**，禁止无注释关闭规则或随意塞入依赖。
+
+## 组件职责
+
+- **单文件组件以可读性为界**：复杂 UI 拆子组件；业务逻辑过重时抽到自定义 Hook 或独立模块，避免单文件过长难以测试与复用。

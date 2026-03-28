@@ -1,0 +1,24 @@
+---
+description: Vue defineProps、defineEmits、v-model 与插槽类型
+globs: "**/*.vue"
+alwaysApply: false
+---
+
+# Props、Emits 与插槽
+
+## Props
+
+- **使用 `defineProps` 并配合 TypeScript**（泛型形式或 `withDefaults` + 类型接口），**避免无类型的 `props` 选项与 script setup 混用导致类型割裂**。
+- **必填与默认值明确**：可选 prop 在类型与 `withDefaults` 中一致；文档化复杂 prop 的约束（TSDoc 或组件旁注释）。
+
+## Emits
+
+- **`defineEmits` 声明事件名及载荷类型**，避免字符串魔法值散落；父组件监听与子组件触发名称严格对应。
+
+## v-model
+
+- **Vue 3 默认 `modelValue` / `update:modelValue`**；多 `v-model` 使用命名 `v-model:foo` 并在子组件声明对应 prop 与 emit，命名与产品语义一致。
+
+## 插槽
+
+- **作用域插槽参数类型在 TS 下尽量明确**（Vue 3.3+ 可用 `defineSlots` 等能力时与项目版本对齐）；避免插槽 API 过于臃肿，必要时拆子组件。
