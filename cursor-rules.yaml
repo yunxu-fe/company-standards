@@ -1,0 +1,50 @@
+# ====================== 1. 规则基础信息（必填）======================
+rule:
+  id: my-custom-project-rule # 唯一ID，英文小写+横线
+  name: 前端React项目专用规则 # Cursor里显示的规则名称
+  description: 适用于React+TS+Vite项目的专属规范 # 规则描述
+  version: 1.0.0 # 版本号（可选）
+
+# ====================== 2. 项目核心规则（核心功能）======================
+projectRules:
+  # 代码风格规范（强制AI按这个写代码）
+  codeStyle:
+    language: typescript # 主力语言（javascript/python/java/go等）
+    indentation: 2 # 缩进空格数
+    lineLength: 120 # 最大行宽
+    semicolons: true # JS/TS强制分号
+    quotes: single # 单引号/双引号
+    braceStyle: same-line # 大括号风格（同行/换行）
+    fileNaming: kebab-case # 文件命名（kebab-case: user-list.tsx）
+
+  # 技术栈约束（告诉AI项目用了什么技术，避免生成无关代码）
+  techStack:
+    - React 18
+    - TypeScript
+    - Vite
+    - TailwindCSS
+    - React Router 6
+
+  # AI 行为约束（最关键！让AI完全贴合你的项目）
+  aiPrompts:
+    - 仅使用项目已引入的依赖，禁止新增未知库
+    - React组件必须用函数式组件+Hook
+    - 所有接口请求封装为统一API函数
+    - 样式必须用TailwindCSS，禁止写原生CSS
+    - 代码必须兼容移动端适配
+
+  # 禁用Cursor功能（按需关闭）
+  disabledFeatures:
+    - autoImports # 禁用自动导入
+    - inlineCodeSuggestions # 禁用行内建议
+    - aiChatAutoReply # 禁用AI自动回复
+
+# ====================== 3. 自定义快捷命令（可选）======================
+# 给Cursor加一键指令，在聊天框直接点就能用
+commands:
+  - name: 生成React组件
+    prompt: 生成一个符合项目规范的React函数式组件，包含Props类型定义、基础逻辑
+  - name: 生成接口请求
+    prompt: 基于TS类型生成Axios接口请求函数，包含请求/响应类型
+  - name: 修复TS类型错误
+    prompt: 检查并修复当前文件的所有TypeScript类型错误
